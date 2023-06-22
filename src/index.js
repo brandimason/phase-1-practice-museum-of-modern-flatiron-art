@@ -53,7 +53,7 @@ function displayExhibit(exhibit){
 
 
 
-}
+// }
 
 
 
@@ -136,3 +136,62 @@ function displayExhibit(exhibit){
 
 //     }
 // }
+
+
+
+
+
+
+//make a fetch to get the data & fetch the first exhibit
+
+document.addEventListener("DOMContentLoaded", ()=>{
+    fetchData()
+})
+
+function fetchData(){
+    fetch('http://localhost:3000/current-exhibits')
+    .then(res => res.json())
+    .then(data => displayInfo(data[0]))
+
+    //display the first exhibits details on page (title, photo, etc)
+    function displayInfo(data){
+        const updateTitle = document.querySelector("#exhibit-title")
+        updateTitle.textContent = data.title
+        const updateTicketSales = document.querySelector("#tickets-bought")
+        updateTicketSales.textContent = `${data.tickets_bought} Tickets Bought`
+        const updateDescription = document.querySelector("#exhibit-description")
+        updateDescription.textContent = data.description
+        const updateImage = document.querySelector("#exhibit-image")
+        updateImage.src = data.image
+   
+        //add comments to comment section while creating a new "p" tag  
+
+        //identify the comment section
+        const commentArray = data.comments
+        // console.log(commentArray)
+
+        commentArray.forEach((data) => myFunc(data))
+
+        function myFunc(data){
+            const commentSection = document.querySelector("#comments-section")
+            const newComment = document.createElement("p")
+            newComment.textContent = data
+            commentSection.appendChild(newComment)
+        }
+
+
+    
+
+    }
+
+    
+}
+
+// commentArray.forEach((index) => myFunc(index))
+
+//     function myFunc(index) {
+//         // console.log(index)
+//         const commentSection = document.querySelector("#comments-section")
+//         const newComment = document.createElement("p")
+//         newComment.textContent = index;
+//         commentSection.appendChild(newComment)
